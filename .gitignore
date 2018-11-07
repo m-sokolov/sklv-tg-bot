@@ -1,0 +1,8 @@
+
+config/main\.ini
+
+*.pem
+
+*.log
+
+\.idea/
