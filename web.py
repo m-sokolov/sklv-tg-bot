@@ -1,6 +1,7 @@
 import os
 import json
 import configparser
+import re
 from flask import Flask, request, redirect
 
 # Load config file
@@ -11,13 +12,27 @@ port = config['GENERAL']['local_port']
 
 app = Flask(__name__)
 
+# Delimiters for command splitting
+delim = re.compile("[/@\s]")
 
 # Next row will define URL and method
 @app.route("/api/sklv_bot", methods=['POST'])
 def sklv_bot():
     """Pass received json to bot, dump function will convert json to string"""
-    os.system("python3 bots/sklv_bot/sklv_bot.py \'"
-              + json.dumps(request.json) + "\'")
+
+    # Get json with all "command:file" values
+    with open("bots.json", "r") as f:
+        bots = json.load(f)
+        f.close()
+
+        # Get command from request
+        txt = request.json['message']['text']
+        command = re.split(delim, txt)
+
+        # Launch file if exists
+        if command[1] in bots:
+            os.system("python3 {} '{}'".format(bots.get(command[1]), json.dumps(request.json)))
+
     # Please return code 200 to tg, to prevent multiply send
     return "ok", 200
 

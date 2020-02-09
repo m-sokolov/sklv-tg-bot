@@ -1,6 +1,8 @@
 
 config/main\.ini
 
+bots.json
+
 *.pem
 
 *.log
