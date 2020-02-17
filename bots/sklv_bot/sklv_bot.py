@@ -52,7 +52,7 @@ json = json.loads(sys.argv[1])
 print(json)
 msg = json['message']
 txt = json['message']['text']
-chat = json['chat']['id']
+chat = json['message']['chat']['id']
 try:
     # Text from chat comes as /command@botname split this row and delete first symbol
     command = txt.split('@')
