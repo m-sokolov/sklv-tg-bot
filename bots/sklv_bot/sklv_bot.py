@@ -49,7 +49,7 @@ commands = {'updates': get_serv_updates,
 
 # Convert passed string from Flask to json object with load function
 json = json.loads(sys.argv[1])
-# id = json['update_id']
+print(json)
 msg = json['message']
 txt = json['message']['text']
 chat = json['chat']['id']
